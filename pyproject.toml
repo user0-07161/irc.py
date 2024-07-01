@@ -1,0 +1,17 @@
+[project]
+name = "ircpy"
+version = "0.9.1"
+authors = [
+  { name="User0", email="user0thenyancat@proton.me" },
+]
+description = "IRC library for Python3"
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+Homepage = "https://github.com/user0-07161/irc.py"
+Issues = "https://github.com/user0-07161/irc.py/issues"

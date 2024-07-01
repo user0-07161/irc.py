@@ -1,0 +1,9 @@
+LICENSE
+README.md
+pyproject.toml
+src/ircpy/__init__.py
+src/ircpy/irc.py
+src/ircpy.egg-info/PKG-INFO
+src/ircpy.egg-info/SOURCES.txt
+src/ircpy.egg-info/dependency_links.txt
+src/ircpy.egg-info/top_level.txt
