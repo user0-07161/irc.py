@@ -1,6 +1,6 @@
 [project]
 name = "ircpy"
-version = "0.9.1"
+version = "0.9.2"
 authors = [
   { name="User0", email="user0thenyancat@proton.me" },
 ]
