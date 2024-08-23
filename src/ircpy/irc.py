@@ -32,8 +32,9 @@ class Bot:
     async def callevent(self, event, *args, **kwargs):
         tasks = []
         for handler in self._events[event]:
+            all_args = {**self._args, **kwargs}
             if asyncio.iscoroutinefunction(handler):
-                tasks.append(handler(*args, **kwargs, **self._args))
+                tasks.append(handler(*args, **all_args))
             else:
                 handler(*args, **kwargs, **self._args)
         if tasks:
