@@ -31,14 +31,17 @@ class Bot:
         print(f"DEBUG: {event_name}")
         return func
     async def callevent(self, event, *args):
-        tasks = []
-        for handler in self._events[event]:
-            if asyncio.iscoroutinefunction(handler):
-                tasks.append(handler(*args))
-            else:
-                handler(*args)
-        if tasks:
-            await asyncio.gather(*tasks)
+        try:
+            tasks = []
+            for handler in self._events[event]:
+                if asyncio.iscoroutinefunction(handler):
+                    tasks.append(handler(*args))
+                else:
+                    handler(*args)
+            if tasks:
+                await asyncio.gather(*tasks)
+        except:
+            pass
     def connect(self):
         loop = asyncio.get_event_loop()
         loop.run_until_complete(self._connect())
