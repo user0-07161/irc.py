@@ -29,10 +29,10 @@ class Bot:
             self._events[event_name] = []
         self._events[event_name].append(func)
         return func
-    async def callevent(self, event, *args, **kwargs):
+    async def callevent(self, event, *args):
         tasks = []
         for handler in self._events[event]:
-            all_args = {**self._args, **kwargs}
+            all_args = {**self._args}
             if asyncio.iscoroutinefunction(handler):
                 tasks.append(handler(*args, **all_args))
             else:
