@@ -36,7 +36,7 @@ class Bot:
             if asyncio.iscoroutinefunction(handler):
                 tasks.append(handler(*args, **all_args))
             else:
-                handler(*args, **kwargs, **self._args)
+                handler(*args, **all_args)
         if tasks:
             await asyncio.gather(*tasks)
     def connect(self):
