@@ -29,11 +29,19 @@ class Bot:
             self._events[event_name] = []
         self._events[event_name].append(func)
         return func
-    def callevent(self, event, *args):
-        if event in self._events:
-            for handler in self._events[event]:
-                handler(*args)
-    async def connect(self):
+    async def callevent(self, event, *args, **kwargs):
+        tasks = []
+        for handler in self._events[event]:
+            if asyncio.iscoroutinefunction(handler):
+                tasks.append(handler(*args, **kwargs, **self._args))
+            else:
+                handler(*args, **kwargs, **self._args)
+        if tasks:
+            await asyncio.gather(*tasks)
+    def connect(self):
+        loop = asyncio.get_event_loop()
+        loop.run_until_complete(self._connect())
+    async def _connect(self):
         self.reader, self.writer = await telnetlib3.open_connection(
             server, port, encoding='utf-8'
         )
@@ -41,13 +49,13 @@ class Bot:
         self.writer.write(f"USER {nickname} 0 * :{nickname}\r\n")
         self.writer.write(f"JOIN {channel}\r\n")
         self.writer.write(f"PRIVMSG {channel} :Logged in.\r\n")
-        self.callevent("ready", nickname, channel)
+        await self.callevent("ready", nickname, channel)
         while True:
             line = await self.reader.readline()
             if not line:
                 break
-            self.handle_line(line.strip())
-    def handle_line(self, line):
+            await self.handle_line(line.strip())
+    async def handle_line(self, line):
         if line.startswith("PING"):
             self.writer.write(f"PONG {line.split()[1]}\r\n")
         elif "PRIVMSG" in line:
@@ -59,7 +67,7 @@ class Bot:
            if user:
                user = user[0]
            if not prefix in line:
-               self.callevent("message_received", msg, user, channel)
+               await self.callevent("message_received", msg, user, channel)
            else:
                try:
                    msg_splitted = msg.split(' ')
@@ -75,4 +83,4 @@ class Bot:
                        pass
                    else:
                        arguments.append(arg)
-               self.callevent(cmd, arguments, user, channel, msg)
+               await self.callevent(cmd, arguments, user, channel, msg)
