@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: ircpy
-Version: 1.1.4
+Version: 1.1.5
 Summary: IRC library for Python3
 Author-email: User0 <user0thenyancat@proton.me>
 Project-URL: Homepage, https://github.com/user0-07161/irc.py

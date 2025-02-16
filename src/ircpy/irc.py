@@ -62,6 +62,7 @@ class Bot:
                 break
             await self.handle_line(line.strip())
     async def handle_line(self, line):
+        print(f"DEBUG: {line}")
         if line.startswith("PING"):
             self.writer.write(f"PONG {line.split()[1]}\r\n")
         elif "PRIVMSG" in line:
