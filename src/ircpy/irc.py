@@ -23,6 +23,8 @@ class Bot:
             prefix = "!"
     def send_message(self, message):
         self.writer.write(f"PRIVMSG {channel} :{message}\r\n")
+    def send_raw(self, raw):
+        self.writer.write(f"{raw}\r\n")
     def event(self, func):
         event_name = func.__name__
         if event_name not in self._events:
